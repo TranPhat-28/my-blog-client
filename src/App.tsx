@@ -1,26 +1,35 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import MainLayout from "./layouts/MainLayout";
 
-function App() {
-    return (
-        <Routes>
-            {/* Auth routes */}
-            <Route path="/login" element={<div>Login</div>} />
-
-            {/* Main layout */}
-            <Route path="/" element={<MainLayout />}>
-                <Route
-                    index
-                    element={<Navigate to={"/blogs"} replace={true} />}
-                />
-                <Route path="blogs" element={<div>Latest blogs</div>} />
-                <Route path="blogs/:id" element={<div>Blogs with id</div>} />
-            </Route>
-
-            {/* Fallback */}
-            <Route path="*" element={<div>404 Not Found</div>} />
-        </Routes>
-    );
-}
+const App = [
+    {
+        path: "/login",
+        element: <div>Login</div>,
+    },
+    {
+        path: "/",
+        element: <MainLayout />,
+        children: [
+            {
+                index: true,
+                element: <Navigate to="/blogs" replace />,
+            },
+            {
+                path: "blogs",
+                element: <div>Latest blogs</div>,
+                // loader: async () => fetch("/api/posts").then(res => res.json()), // later
+            },
+            {
+                path: "blogs/:id",
+                element: <div>Blogs with id</div>,
+                // loader: async ({ params }) => fetch(`/api/posts/${params.id}`).then(res => res.json()),
+            },
+        ],
+    },
+    {
+        path: "*",
+        element: <div>404 Not Found</div>,
+    },
+];
 
 export default App;
