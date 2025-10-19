@@ -1,10 +1,11 @@
 import { Navigate } from "react-router-dom";
 import MainLayout from "./layouts/MainLayout";
+import LoginLayout from "./layouts/LoginLayout";
 
 const App = [
     {
         path: "/login",
-        element: <div>Login</div>,
+        element: <LoginLayout />,
     },
     {
         path: "/",
