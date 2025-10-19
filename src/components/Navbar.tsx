@@ -1,6 +1,6 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UserAvatar from "./UserAvatar";
-import { useState } from "react";
 
 const Navbar = () => {
     const navigate = useNavigate();
