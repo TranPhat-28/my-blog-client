@@ -2,7 +2,7 @@ const LoginLayout = () => {
     return (
         <div className="h-screen w-screen bg-base-200 flex items-center justify-center p-4">
             <div className="bg-white shadow-lg w-full shadow-gray-400 rounded-xl p-4 justify-center max-w-md">
-                <h1 className="font-logo text-center ">MyBlog</h1>
+                <h1 className="font-logo text-center text-primary pb-2">MyBlog</h1>
                 {/* Email login */}
                 <div className="w-full flex justify-center">
                     <input
