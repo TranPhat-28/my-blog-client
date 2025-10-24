@@ -5,7 +5,7 @@ export const loginWithGoogle = async (): Promise<void> => {
 
     const params = new URLSearchParams({
         client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
-        redirect_uri: "http://localhost:5173/login/callback",
+        redirect_uri: import.meta.env.VITE_REDIRECT_URI,
         response_type: "code",
         scope: "openid email profile",
         code_challenge,

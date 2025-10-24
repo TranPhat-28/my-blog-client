@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UserAvatar from "./UserAvatar";
+import { routes } from "../utils/routes";
 
 const Navbar = () => {
     const navigate = useNavigate();
@@ -12,7 +13,7 @@ const Navbar = () => {
                 <div className="h-full w-full max-w-6xl mx-auto flex items-center px-2">
                     <button
                         className="font-logo cursor-pointer text-primary"
-                        onClick={() => navigate("/")}
+                        onClick={() => navigate(routes.home.path)}
                     >
                         MyBlog
                     </button>
@@ -21,7 +22,7 @@ const Navbar = () => {
                     {!isAuthed && (
                         <button
                             className="btn btn-primary btn-outline"
-                            onClick={() => navigate("/login")}
+                            onClick={() => navigate(routes.login.path)}
                         >
                             Login
                         </button>

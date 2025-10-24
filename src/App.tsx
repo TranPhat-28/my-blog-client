@@ -7,10 +7,12 @@ import LoginLayout from "./layouts/LoginLayout";
 // Pages
 import AuthCallbackPage from "./pages/AuthCallback";
 import LoginPage from "./pages/Login";
+import { routes } from "./utils/routes";
 
 const App = [
     {
-        path: "/login",
+        /* LOGIN */
+        path: routes.login.path,
         element: <LoginLayout />,
         children: [
             {
@@ -18,26 +20,29 @@ const App = [
                 element: <LoginPage />,
             },
             {
-                path: "callback",
+                path: routes.login.callback.path,
                 element: <AuthCallbackPage />,
             },
         ],
     },
     {
-        path: "/",
+        /* HOME */
+        path: routes.home.path,
         element: <MainLayout />,
         children: [
             {
                 index: true,
-                element: <Navigate to="/blogs" replace />,
+                element: (
+                    <Navigate to={routes.home.blogs.absolutePath} replace />
+                ),
             },
             {
-                path: "blogs",
+                path: routes.home.blogs.path,
                 element: <div>Latest blogs</div>,
                 // loader: async () => fetch("/api/posts").then(res => res.json()), // later
             },
             {
-                path: "blogs/:id",
+                path: routes.home.blogId.path,
                 element: <div>Blogs with id</div>,
                 // loader: async ({ params }) => fetch(`/api/posts/${params.id}`).then(res => res.json()),
             },

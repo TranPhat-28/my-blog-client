@@ -32,11 +32,3 @@ const UserAvatar = () => {
 };
 
 export default UserAvatar;
-
-/*
-<div className="avatar avatar-placeholder">
-            <div className="bg-neutral text-neutral-content w-10 rounded-full cursor-pointer ring-primary ring-offset-2 hover:ring-2 duration-100">
-                <span>SY</span>
-            </div>
-        </div>
-*/
