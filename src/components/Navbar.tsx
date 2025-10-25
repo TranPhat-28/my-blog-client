@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UserAvatar from "./UserAvatar";
-import { routes } from "../utils/routes";
+import { routes } from "../routes/routes";
 
 const Navbar = () => {
     const navigate = useNavigate();

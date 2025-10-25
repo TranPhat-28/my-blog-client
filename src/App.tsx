@@ -7,7 +7,7 @@ import LoginLayout from "./layouts/LoginLayout";
 // Pages
 import AuthCallbackPage from "./pages/AuthCallback";
 import LoginPage from "./pages/Login";
-import { routes } from "./utils/routes";
+import { routes } from "./routes/routes";
 
 const App = [
     {
