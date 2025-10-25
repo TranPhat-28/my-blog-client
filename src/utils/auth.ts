@@ -1,7 +1,7 @@
-import { createPKCE } from "./PCKE";
+import { PKCE } from "./PKCE";
 
 export const loginWithGoogle = async (): Promise<void> => {
-    const { code_challenge, state, nonce } = await createPKCE();
+    const { code_challenge, state, nonce } = await PKCE.create();
 
     const params = new URLSearchParams({
         client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,

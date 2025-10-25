@@ -21,7 +21,7 @@ const randomString = (length = 64): string => {
     );
 };
 
-export const createPKCE = async (): Promise<PKCEData> => {
+const create = async (): Promise<PKCEData> => {
     const code_verifier = randomString(96);
     const code_challenge = await sha256(code_verifier);
     const state = randomString(16);
@@ -33,3 +33,15 @@ export const createPKCE = async (): Promise<PKCEData> => {
 
     return { code_challenge, state, nonce };
 };
+
+const getVerifier = (): string | null => {
+    return sessionStorage.getItem("pkce_code_verifier");
+};
+
+const clear = (): void => {
+    sessionStorage.removeItem("pkce_code_verifier");
+    sessionStorage.removeItem("pkce_state");
+    sessionStorage.removeItem("oidc_nonce");
+};
+
+export const PKCE = { create, getVerifier, clear };
