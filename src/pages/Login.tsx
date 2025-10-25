@@ -1,9 +1,9 @@
-import { loginWithGoogle } from "../utils/auth";
+import { authApi } from "../apis/authApi";
 
 const LoginPage = () => {
     const handleLogin = async () => {
         try {
-            await loginWithGoogle();
+            await authApi.loginWithGoogle();
         } catch (err) {
             console.error("Login failed:", err);
         }

@@ -1,12 +1,13 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { BeatLoader } from "react-spinners";
+import { authApi } from "../apis/authApi";
 
 const AuthCallbackPage = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const handleAuth = async () => {
+        (async () => {
             const params = new URLSearchParams(window.location.search);
             const code = params.get("code");
             const state = params.get("state");
@@ -16,44 +17,17 @@ const AuthCallbackPage = () => {
                 return;
             }
 
-            const codeVerifier = sessionStorage.getItem("pkce_code_verifier");
-            if (!codeVerifier) {
-                console.error(
-                    "Missing PKCE verifier — user might have reloaded."
-                );
-                return;
-            }
-
             try {
-                const res = await fetch(
-                    `${import.meta.env.VITE_API_BASE_URL}/auth/google`,
-                    {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        credentials: "include", // allows cookies from backend
-                        body: JSON.stringify({
-                            code,
-                            code_verifier: codeVerifier,
-                            state,
-                        }),
-                    }
+                const token = await authApi.exchangeGoogleCodeForToken(
+                    code,
+                    state
                 );
-
-                if (!res.ok) {
-                    const err = await res.text();
-                    throw new Error(`Auth failed: ${err}`);
-                }
-
-                const data = await res.json();
-                console.log("Login successful:", data);
-
+                console.log("Login successful:", token);
                 navigate("/");
-            } catch (err) {
-                console.error("Login error:", err);
+            } catch (e) {
+                console.log("Error cannot login: ", e);
             }
-        };
-
-        handleAuth();
+        })();
     }, [navigate]);
 
     return (

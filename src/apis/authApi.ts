@@ -1,0 +1,53 @@
+import { PKCE } from "../utils/PKCE";
+
+const loginWithGoogle = async (): Promise<void> => {
+    const { code_challenge, state, nonce } = await PKCE.create();
+
+    const params = new URLSearchParams({
+        client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+        redirect_uri: import.meta.env.VITE_REDIRECT_URI,
+        response_type: "code",
+        scope: "openid email profile",
+        code_challenge,
+        code_challenge_method: "S256",
+        state,
+        nonce,
+    });
+
+    window.location.href = `${
+        import.meta.env.VITE_GOOGLE_AUTH_URL
+    }?${params.toString()}`;
+};
+
+const exchangeGoogleCodeForToken = async (
+    code: string,
+    state: string | null
+): Promise<string> => {
+    const codeVerifier = PKCE.getVerifier();
+    if (!codeVerifier)
+        throw new Error("Missing PKCE verifier — user might have reloaded.");
+
+    const res = await fetch(
+        `${import.meta.env.VITE_API_BASE_URL}/auth/google`,
+        {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+            body: JSON.stringify({
+                code,
+                code_verifier: codeVerifier,
+                state,
+            }),
+        }
+    );
+
+    if (!res.ok) {
+        const err = await res.text();
+        throw new Error(`Auth failed: ${err}`);
+    }
+
+    PKCE.clear();
+    return "JWT";
+};
+
+export const authApi = { loginWithGoogle, exchangeGoogleCodeForToken };
