@@ -1,3 +1,4 @@
+import { httpRequest } from "../utils/httpClient";
 import { PKCE } from "../utils/PKCE";
 
 const loginWithGoogle = async (): Promise<void> => {
@@ -27,23 +28,18 @@ const exchangeGoogleCodeForToken = async (
     if (!codeVerifier)
         throw new Error("Missing PKCE verifier — user might have reloaded.");
 
-    const res = await fetch(
-        `${import.meta.env.VITE_API_BASE_URL}/auth/google`,
-        {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            credentials: "include",
-            body: JSON.stringify({
-                code,
-                code_verifier: codeVerifier,
-                state,
-            }),
-        }
-    );
+    const res = await httpRequest<{ token: string }>("/auth/google", {
+        method: "POST",
+        data: {
+            code,
+            code_verifier: codeVerifier,
+            state,
+        },
+        withCredentials: true,
+    });
 
-    if (!res.ok) {
-        const err = await res.text();
-        throw new Error(`Auth failed: ${err}`);
+    if (!res) {
+        throw new Error("Auth failed");
     }
 
     PKCE.clear();
