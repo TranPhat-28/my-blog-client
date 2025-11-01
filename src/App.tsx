@@ -39,12 +39,10 @@ const App = [
             {
                 path: routes.home.blogs.path,
                 element: <div>Latest blogs</div>,
-                // loader: async () => fetch("/api/posts").then(res => res.json()), // later
             },
             {
                 path: routes.home.blogId.path,
                 element: <div>Blogs with id</div>,
-                // loader: async ({ params }) => fetch(`/api/posts/${params.id}`).then(res => res.json()),
             },
         ],
     },
