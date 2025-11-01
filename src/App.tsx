@@ -3,10 +3,13 @@ import { Navigate } from "react-router-dom";
 // Layouts
 import MainLayout from "./layouts/MainLayout";
 import LoginLayout from "./layouts/LoginLayout";
+import ErrorLayout from "./layouts/ErrorLayout";
 
 // Pages
 import AuthCallbackPage from "./pages/AuthCallback";
 import LoginPage from "./pages/Login";
+
+// Routes
 import { routes } from "./routes/routes";
 
 const App = [
@@ -47,8 +50,9 @@ const App = [
         ],
     },
     {
+        /* ERROR */
         path: "*",
-        element: <div>404 Not Found</div>,
+        element: <ErrorLayout />,
     },
 ];
 
