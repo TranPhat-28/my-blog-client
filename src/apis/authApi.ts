@@ -20,20 +20,20 @@ const loginWithGoogle = async (): Promise<void> => {
     }?${params.toString()}`;
 };
 
-const exchangeGoogleCodeForToken = async (
-    code: string,
-    state: string | null
-): Promise<string> => {
+const exchangeGoogleCodeForToken = async (code: string): Promise<string> => {
     const codeVerifier = PKCE.getVerifier();
-    if (!codeVerifier)
-        throw new Error("Missing PKCE verifier — user might have reloaded.");
+    const nonce = PKCE.getNonce();
+    if (!codeVerifier || !nonce)
+        throw new Error(
+            "Missing PKCE verifier or nonce — user might have reloaded."
+        );
 
     const res = await httpRequest<{ token: string }>("/auth/google", {
         method: "POST",
         data: {
             code,
             code_verifier: codeVerifier,
-            state,
+            nonce,
         },
         withCredentials: true,
     });

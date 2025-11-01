@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { BeatLoader } from "react-spinners";
 import { authApi } from "../apis/authApi";
+import { PKCE } from "../utils/PKCE";
 
 const AuthCallbackPage = () => {
     const navigate = useNavigate();
@@ -17,13 +18,23 @@ const AuthCallbackPage = () => {
                 return;
             }
 
+            if (!state) {
+                console.error("No state found in URL.");
+                return;
+            }
+
+            const storedState = PKCE.getState();
+            if (state !== storedState) {
+                console.error("States mismatch. Abort");
+                return;
+            }
+
             try {
                 const token = await authApi.exchangeGoogleCodeForToken(
-                    code,
-                    state
+                    code
                 );
                 console.log("Login successful:", token);
-                navigate("/");
+                // navigate("/");
             } catch (e) {
                 console.log("Error cannot login: ", e);
             }

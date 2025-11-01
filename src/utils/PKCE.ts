@@ -38,10 +38,18 @@ const getVerifier = (): string | null => {
     return sessionStorage.getItem("pkce_code_verifier");
 };
 
+const getState = (): string | null => {
+    return sessionStorage.getItem("pkce_state");
+};
+
+const getNonce = (): string | null => {
+    return sessionStorage.getItem("oidc_nonce");
+};
+
 const clear = (): void => {
     sessionStorage.removeItem("pkce_code_verifier");
     sessionStorage.removeItem("pkce_state");
     sessionStorage.removeItem("oidc_nonce");
 };
 
-export const PKCE = { create, getVerifier, clear };
+export const PKCE = { create, getVerifier, getState, getNonce, clear };
