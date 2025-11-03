@@ -1,14 +1,14 @@
 import { useEffect } from "react";
 import {
-    createSearchParams,
     useNavigate,
-    useSearchParams,
+    useSearchParams
 } from "react-router-dom";
 import { BeatLoader } from "react-spinners";
-import { authApi } from "../apis/authApi";
-import { PKCE } from "../utils/PKCE";
-import { routes } from "../routes/routes";
 import { toast } from "react-toastify";
+import { authApi } from "../apis/authApi";
+import { routes } from "../routes/routes";
+import { goToErrorPage } from "../utils/error";
+import { PKCE } from "../utils/PKCE";
 
 const AuthCallbackPage = () => {
     const navigate = useNavigate();
@@ -20,42 +20,33 @@ const AuthCallbackPage = () => {
             const state = searchParam.get("state");
 
             if (!code) {
-                navigate({
-                    pathname: routes.error.absolutePath,
-                    search: createSearchParams({
-                        error_message:
-                            "The auth code that indicates a successful login was not found.",
-                    }).toString(),
-                });
-
-                toast.error("Cannot connect to Google at the moment");
+                goToErrorPage(
+                    navigate,
+                    routes.error.absolutePath,
+                    "The auth code that indicates a successful login was not found.",
+                    "Cannot connect to Google at the moment"
+                );
                 return;
             }
 
             if (!state) {
-                navigate({
-                    pathname: routes.error.absolutePath,
-                    search: createSearchParams({
-                        error_message:
-                            "The state that indicates a successfull login was not found.",
-                    }).toString(),
-                });
-
-                toast.error("Cannot connect to Google at the moment");
+                goToErrorPage(
+                    navigate,
+                    routes.error.absolutePath,
+                    "The state that indicates a successful login was not found.",
+                    "Cannot connect to Google at the moment"
+                );
                 return;
             }
 
             const storedState = PKCE.getState();
             if (state !== storedState) {
-                navigate({
-                    pathname: routes.error.absolutePath,
-                    search: createSearchParams({
-                        error_message:
-                            "The security states mismatch. The request to Google was posibly malformed or this might be an attack.",
-                    }).toString(),
-                });
-
-                toast.error("Cannot connect to Google at the moment");
+                goToErrorPage(
+                    navigate,
+                    routes.error.absolutePath,
+                    "The security states mismatch. The request to Google was posibly malformed or this might be an attack.",
+                    "Cannot connect to Google at the moment"
+                );
                 return;
             }
 
@@ -64,14 +55,12 @@ const AuthCallbackPage = () => {
                 toast.success("Login successful");
                 navigate(routes.home.absolutePath);
             } catch (error) {
-                navigate({
-                    pathname: routes.error.absolutePath,
-                    search: createSearchParams({
-                        error_message: "Failed to verify you with Google.",
-                    }).toString(),
-                });
-
-                toast.error((error as Error).message);
+                goToErrorPage(
+                    navigate,
+                    routes.error.absolutePath,
+                    "Failed to verify you with Google.",
+                    (error as Error).message
+                );
                 return;
             }
         })();

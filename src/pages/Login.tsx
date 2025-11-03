@@ -1,7 +1,7 @@
-import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import { authApi } from "../apis/authApi";
-import { createSearchParams, useNavigate } from "react-router-dom";
 import { routes } from "../routes/routes";
+import { goToErrorPage } from "../utils/error";
 
 const LoginPage = () => {
     const navigate = useNavigate();
@@ -10,14 +10,12 @@ const LoginPage = () => {
         try {
             await authApi.loginWithGoogle();
         } catch (error) {
-            navigate({
-                pathname: routes.error.absolutePath,
-                search: createSearchParams({
-                    error_message: "Cannot connect to Google at the moment.",
-                }).toString(),
-            });
-
-            toast.error((error as Error).message);
+            goToErrorPage(
+                navigate,
+                routes.error.absolutePath,
+                "Cannot connect to Google at the moment.",
+                (error as Error).message
+            );
         }
     };
 
