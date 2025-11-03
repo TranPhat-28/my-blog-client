@@ -9,7 +9,7 @@ const ErrorLayout = () => {
     return (
         <div className="h-screen w-screen bg-base-200 flex flex-col items-center justify-center p-4 gap-4">
             <div className="h-full max-h-96 w-full max-w-96">
-                <img src="error.png" alt="Error" />
+                <img src="error_illustration.png" alt="Error" />
             </div>
             <div className="bg-base-300 shadow rounded-lg w-full max-w-lg p-4">
                 <span className="font-bold">Error summary: </span>
