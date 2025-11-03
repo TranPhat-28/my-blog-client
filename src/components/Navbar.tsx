@@ -13,7 +13,7 @@ const Navbar = () => {
                 <div className="h-full w-full max-w-6xl mx-auto flex items-center px-2">
                     <button
                         className="font-logo cursor-pointer text-primary"
-                        onClick={() => navigate(routes.home.path)}
+                        onClick={() => navigate(routes.home.absolutePath)}
                     >
                         MyBlog
                     </button>
@@ -22,7 +22,7 @@ const Navbar = () => {
                     {!isAuthed && (
                         <button
                             className="btn btn-primary btn-outline"
-                            onClick={() => navigate(routes.login.path)}
+                            onClick={() => navigate(routes.login.absolutePath)}
                         >
                             Login
                         </button>

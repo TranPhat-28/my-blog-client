@@ -13,8 +13,8 @@ import LoginPage from "./pages/Login";
 import { routes } from "./routes/routes";
 
 const App = [
+    /* LOGIN */
     {
-        /* LOGIN */
         path: routes.login.path,
         element: <LoginLayout />,
         children: [
@@ -28,8 +28,8 @@ const App = [
             },
         ],
     },
+    /* HOME */
     {
-        /* HOME */
         path: routes.home.path,
         element: <MainLayout />,
         children: [
@@ -49,10 +49,15 @@ const App = [
             },
         ],
     },
+    /* ERROR */
     {
-        /* ERROR */
-        path: "*",
+        path: routes.error.path,
         element: <ErrorLayout />,
+    },
+    /* NOT FOUND */
+    {
+        path: routes.any.path,
+        element: <Navigate to={routes.notFound.absolutePath} replace />,
     },
 ];
 

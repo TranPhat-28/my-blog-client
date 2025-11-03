@@ -1,3 +1,5 @@
+/* Root level paths must have prefix slash */
+/* Nested level paths must not have prefix slash */
 export const routes = {
     login: {
         path: "/login",
@@ -25,5 +27,20 @@ export const routes = {
             absolutePath: "/blogs/:id",
             link: (id: string) => `/blogs/${id}`,
         },
+    },
+    error: {
+        path: "/error",
+        absolutePath: "/error",
+        link: () => "/error",
+    },
+    notFound: {
+        path: "/error?error_message=Page+not+found.",
+        absolutePath: "/error?error_message=Page+not+found.",
+        link: () => "/error?error_message=Page+not+found.",
+    },
+    any: {
+        path: "*",
+        absolutePath: "*",
+        link: () => "*",
     },
 } as const;
